@@ -24,10 +24,10 @@ services:
     build:
       context: ./mysql
     environment:
-      - MYSQL_DATABASE=eppbd_api
+      - MYSQL_DATABASE=demo_db
       - MYSQL_USER=admin
-      - MYSQL_PASSWORD=spbd1971@db
-      - MYSQL_ROOT_PASSWORD=spbd1971@db
+      - MYSQL_PASSWORD=dpf12345
+      - MYSQL_ROOT_PASSWORD=dpf12345
     volumes:
       - ./mysql/data:/var/lib/mysql
       - ./mysql/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
@@ -42,8 +42,8 @@ services:
     environment:
         - PMA_ARBITRARY=1
         - MYSQL_USER=admin
-        - MYSQL_PASSWORD=spbd1971
-        - MYSQL_ROOT_PASSWORD=spbd1971
+        - MYSQL_PASSWORD=dpf12345
+        - MYSQL_ROOT_PASSWORD=dpf12345
     ports:
       - "8080:80"
     networks:
