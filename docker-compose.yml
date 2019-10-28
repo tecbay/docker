@@ -1,0 +1,50 @@
+version: '3'
+
+networks:
+  backend:
+    driver: bridge
+
+
+services:
+### php-apache-server ################################################
+  php-apache-server:
+    build:
+      context: ./php-apache
+    command: bash -c "cron && /usr/bin/supervisord"
+    volumes:
+      - ./php-apache/php.ini:/usr/local/etc/php/php.ini
+      - ../:/var/www/html
+    ports:
+      - "80:80"
+    networks:
+      - backend
+
+ ### MySQL ################################################
+  mysql:
+    build:
+      context: ./mysql
+    environment:
+      - MYSQL_DATABASE=eppbd_api
+      - MYSQL_USER=admin
+      - MYSQL_PASSWORD=spbd1971@db
+      - MYSQL_ROOT_PASSWORD=spbd1971@db
+    volumes:
+      - ./mysql/data:/var/lib/mysql
+      - ./mysql/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
+    ports:
+      - "3306:3306"
+    networks:
+      - backend
+
+ ### PhpmyAdmin ################################################
+  phpmyadmin:
+    image : phpmyadmin/phpmyadmin
+    environment:
+        - PMA_ARBITRARY=1
+        - MYSQL_USER=admin
+        - MYSQL_PASSWORD=spbd1971
+        - MYSQL_ROOT_PASSWORD=spbd1971
+    ports:
+      - "8080:80"
+    networks:
+      - backend
